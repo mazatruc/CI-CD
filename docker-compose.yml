@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  ghost-server:
+    image: ghost:5.70.1-alpine
+    cap_add:
+      - SYS_NICE
+    security_opt:
+      - seccomp:unconfined
+    restart: always
+    ports:
+      - '2368:2368'
+    depends_on:
+      - ghost-db
+    environment:
+      url: ${DOMAIN}
+      database__client: mysql
+      database__connection__host: ghost-db
+      database__connection__user: ${MYSQLUSR}
+      database__connection__password: ${MYSQLPWD}
+      database__connection__database: ghost
+    volumes:
+      - 'ghost_conf:/var/lib/ghost/content'
+    networks:
+      admin:
+        ipv4_address: 172.40.20.4
+
+  ghost-db:
+    image: mysql:8
+    security_opt:
+    - seccomp:unconfined
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQLPWD}
+    volumes:
+      - 'mysql_conf:/var/lib/mysql'
+    networks:
+      admin:
+        ipv4_address: 172.40.20.3
+
+volumes:
+  mysql_conf:
+  ghost_conf:
+
+networks:
+  admin:
+    name: admin_network
+    external: true
+    enable_ipv6: false
+    ipam:
+      config:
+        - subnet: 172.40.0.0/16
