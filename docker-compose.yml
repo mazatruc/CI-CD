@@ -13,7 +13,6 @@ services:
     depends_on:
       - ghost-db
     environment:
-      url: ${DOMAIN}
       database__client: mysql
       database__connection__host: ghost-db
       database__connection__user: ${MYSQLUSR}
