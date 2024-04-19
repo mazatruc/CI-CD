@@ -22,7 +22,7 @@ services:
       - 'ghost_conf:/var/lib/ghost/content'
     networks:
       admin:
-        ipv4_address: 172.40.20.4
+        ipv4_address: 172.70.20.4
 
   ghost-db:
     image: mysql:8
@@ -36,7 +36,7 @@ services:
       - 'mysql_conf:/var/lib/mysql'
     networks:
       admin:
-        ipv4_address: 172.40.20.3
+        ipv4_address: 172.70.20.3
 
 volumes:
   mysql_conf:
@@ -47,4 +47,4 @@ networks:
     name: admin_network
     ipam:
       config:
-        - subnet: 172.40.0.0/16
+        - subnet: 172.70.0.0/16
