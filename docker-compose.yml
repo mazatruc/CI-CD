@@ -9,7 +9,7 @@ services:
       - seccomp:unconfined
     restart: always
     ports:
-      - '2368:2368'
+      - '2369:2368'
     depends_on:
       - ghost-db
     environment:
